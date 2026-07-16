@@ -1,0 +1,186 @@
+@import 'tailwindcss';
+
+@theme {
+  /* ── Rothian Technology brand tokens (extracted from the live logo) ──
+     Navy wordmark #283078 · red power-button gradient #c02828 → #f06870 */
+  --color-brand-red: #e03140;
+  --color-brand-crimson: #b41e30;
+  --color-brand-coral: #ff6a5e;
+  --color-brand-navy: #2b3990;
+  --color-brand-electric: #6b7dff;
+  --color-brand-ice: #a9b6ff;
+
+  /* Navy-tinted ink scale — cooler than Rothian Digital's warm purple darks */
+  --color-ink-950: #05060e;
+  --color-ink-900: #090b18;
+  --color-ink-800: #101425;
+  --color-ink-700: #1a2038;
+  --color-ink-100: #e9ecf5;
+
+  --color-paper: #f8f9fc;
+  --color-paper-cool: #eef1f7;
+
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 36s linear infinite;
+  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.35;
+      transform: scale(0.8);
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  @apply bg-paper font-body text-ink-900 antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-brand-red);
+  color: #fff;
+}
+
+/* ── Utilities ── */
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-coral) 0%,
+    var(--color-brand-crimson) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-electric {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-ice) 0%,
+    var(--color-brand-electric) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility bg-brand-gradient {
+  background-image: linear-gradient(
+    137deg,
+    var(--color-brand-coral) 0%,
+    var(--color-brand-crimson) 100%
+  );
+}
+
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+}
+
+/* Big editorial display heading */
+@utility heading-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+@utility heading-section {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* Eyebrow label above section headings — mono for the engineering voice */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Blueprint grid backdrop for dark engineering sections */
+@utility bg-grid-dark {
+  background-image:
+    linear-gradient(rgba(107, 125, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(107, 125, 255, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@utility bg-grid-light {
+  background-image:
+    linear-gradient(rgba(43, 57, 144, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43, 57, 144, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
