@@ -55,11 +55,13 @@ export const CONTACT = {
   vatNo: '345 8483 68',
 } as const
 
-/** The wider Rothian Group — sibling companies of Rothian Technology. */
+/** The wider Rothian Group — sibling companies of Rothian Technology.
+ *  `accent` is each company's 2026 wordmark chip colour, so the swatch beside
+ *  a logo always matches the mark itself. */
 export const GROUP_NETWORK = [
   {
     name: 'Rothian Digital',
-    accent: '#F08A2E',
+    accent: '#D44345',
     href: 'https://digital.rothian.com',
     logo: '/logos/rothian-digital-logo.png',
     logoMono: '/logos/rothian-digital-logo-mono.png',
@@ -67,7 +69,7 @@ export const GROUP_NETWORK = [
   },
   {
     name: 'Rothian Cyber',
-    accent: '#A054D8',
+    accent: '#2407D4',
     href: 'https://cyber.rothian.com',
     logo: '/logos/rothian-cyber-logo.png',
     logoMono: '/logos/rothian-cyber-logo-mono.png',
@@ -75,7 +77,7 @@ export const GROUP_NETWORK = [
   },
   {
     name: 'Rothian Data',
-    accent: '#2FB24C',
+    accent: '#43D45B',
     href: 'https://data.rothian.com',
     logo: '/logos/rothian-data-logo.png',
     logoMono: '/logos/rothian-data-logo-mono.png',
@@ -83,7 +85,7 @@ export const GROUP_NETWORK = [
   },
   {
     name: 'Rothian Apps',
-    accent: '#EDBA2E',
+    accent: '#F9FF61',
     href: 'https://app.rothian.com',
     logo: '/logos/rothian-apps-logo.png',
     logoMono: '/logos/rothian-apps-logo-mono.png',

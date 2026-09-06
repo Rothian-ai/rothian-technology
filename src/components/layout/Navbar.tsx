@@ -101,8 +101,8 @@ export function Navbar() {
                 src="/logos/rothian-tech-logo-white.png"
                 alt="Rothian — Powering Business"
                 className="h-8 w-auto sm:h-9"
-                width={117}
-                height={36}
+                width={466}
+                height={138}
               />
             </Link>
 
