@@ -1,0 +1,183 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Per-brand theme scopes
+   ───────────────────────────────────────────────────────────────────────────
+   rothian.com hosts four brands in one app. Tailwind v4 compiles every theme
+   colour to a `var(--color-*)` reference, so re-declaring those variables on a
+   scope re-skins everything inside it — `bg-ink-950` stays `bg-ink-950` in the
+   markup and simply resolves to a different colour under `/digital`.
+
+   `data-brand` is set on <html> by BrandTheme, not on a wrapper div, so the
+   body background and overscroll area are themed too.
+
+   Only genuinely colliding tokens are listed here. Names unique to one brand
+   (abyss-*, festival-*, mist, frost, and every brand accent) live in the
+   global @theme and need no scoping.
+
+   Gradients are stored as whole `linear-gradient(...)` values rather than
+   from/to stops, because the brands disagree on stop count — Cyber and Data
+   use three, Technology and Digital two. Keeping the full value preserves each
+   gradient exactly.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── Rothian Technology (default — the main rothian.com site) ────────────── */
+:root {
+  --site-bg: var(--color-paper);
+  --site-fg: var(--color-ink-900);
+  --selection-bg: var(--color-brand-red);
+  --selection-fg: #fff;
+
+  --brand-gradient: linear-gradient(
+    137deg,
+    var(--color-brand-coral) 0%,
+    var(--color-brand-crimson) 100%
+  );
+  --brand-text-gradient: linear-gradient(
+    100deg,
+    var(--color-brand-coral) 0%,
+    var(--color-brand-crimson) 100%
+  );
+
+  --eyebrow-font: var(--font-mono);
+  --eyebrow-size: 0.72rem;
+}
+
+/* ── Rothian Digital — warm purple darks, orange → magenta ──────────────── */
+:root[data-brand='digital'] {
+  --color-ink-950: #08060a;
+  --color-ink-900: #0e0b12;
+  --color-ink-800: #17121e;
+  --color-ink-700: #241c2e;
+  --color-ink-100: #efeaf2;
+
+  --color-paper: #faf8f6;
+
+  --font-body: 'Chivo', ui-sans-serif, system-ui, sans-serif;
+
+  --site-bg: var(--color-ink-950);
+  --site-fg: var(--color-ink-100);
+  --selection-bg: var(--color-brand-magenta);
+
+  --brand-gradient: linear-gradient(
+    137deg,
+    var(--color-brand-orange) 0%,
+    var(--color-brand-magenta) 100%
+  );
+  --brand-text-gradient: linear-gradient(
+    100deg,
+    var(--color-brand-orange) 0%,
+    var(--color-brand-magenta) 100%
+  );
+
+  --eyebrow-font: var(--font-body);
+  --eyebrow-size: 0.75rem;
+}
+
+/* ── Rothian Cyber — deep-sea abyss, violet → cyan ──────────────────────────
+   Cyber never uses the ink-* scale (it ships its own abyss-* ramp), so there
+   is deliberately no ink override here.                                     */
+:root[data-brand='cyber'] {
+  --color-brand-alert: #f2295b;
+
+  --font-body: 'Chivo', ui-sans-serif, system-ui, sans-serif;
+
+  --site-bg: var(--color-abyss-950);
+  --site-fg: var(--color-abyss-100);
+  --selection-bg: var(--color-brand-violet);
+
+  --brand-gradient: linear-gradient(
+    137deg,
+    var(--color-brand-purple) 0%,
+    var(--color-brand-violet) 45%,
+    var(--color-brand-cyan) 100%
+  );
+  --brand-text-gradient: linear-gradient(
+    100deg,
+    var(--color-brand-violet) 0%,
+    var(--color-brand-cyan) 100%
+  );
+
+  --eyebrow-font: var(--font-body);
+  --eyebrow-size: 0.75rem;
+}
+
+/* ── Rothian Data — green-tinted ink, emerald → mint ────────────────────── */
+:root[data-brand='data'] {
+  --color-ink-950: #050909;
+  --color-ink-900: #0a1210;
+  --color-ink-800: #101a17;
+  --color-ink-700: #1c2825;
+  --color-ink-100: #e9f0ec;
+
+  --color-paper: #fffaf0;
+  --color-brand-alert: #d44345;
+
+  --font-body: 'Chivo', ui-sans-serif, system-ui, sans-serif;
+
+  --nav-h: 5.5rem;
+
+  --site-bg: var(--color-ink-950);
+  --site-fg: var(--color-paper);
+  --selection-bg: var(--color-brand-green);
+  --selection-fg: var(--color-ink-950);
+
+  --brand-gradient: linear-gradient(
+    137deg,
+    var(--color-brand-emerald) 0%,
+    var(--color-brand-green) 55%,
+    var(--color-brand-mint) 100%
+  );
+  --brand-text-gradient: linear-gradient(
+    100deg,
+    var(--color-brand-mint) 0%,
+    var(--color-brand-green) 100%
+  );
+
+  --eyebrow-font: var(--font-mono);
+  --eyebrow-size: 0.6875rem;
+}
+
+/* ── Brand-scoped base rules ────────────────────────────────────────────── */
+
+/* The main site is light; every sub-brand is dark. */
+:root[data-brand] {
+  color-scheme: dark;
+}
+
+/* Data styles its headings and scrollbar globally on its own site. Scoped here
+   so the main site and the other brands keep their own treatment. */
+:root[data-brand='data'] :is(h1, h2, h3, h4, h5) {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+:root[data-brand='data'] p {
+  text-wrap: pretty;
+}
+
+:root[data-brand='data'] :focus-visible {
+  outline: 2px solid var(--color-brand-green);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+:root[data-brand='data'] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+:root[data-brand='data'] ::-webkit-scrollbar-track {
+  background: var(--color-ink-950);
+}
+:root[data-brand='data'] ::-webkit-scrollbar-thumb {
+  background: var(--color-ink-700);
+  border-radius: 99px;
+  border: 3px solid var(--color-ink-950);
+}
+:root[data-brand='data'] ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-emerald);
+}
+
+/* Digital's focus ring, previously the `focus-brand` utility's default. */
+:root[data-brand='digital'] :focus-visible {
+  outline: 2px solid var(--color-brand-magenta);
+  outline-offset: 3px;
+}

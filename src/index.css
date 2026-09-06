@@ -1,8 +1,21 @@
 @import 'tailwindcss';
+@import './styles/brands.css';
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Unified theme for rothian.com
+   ───────────────────────────────────────────────────────────────────────────
+   One Tailwind build serves four brands: the main Technology site plus
+   /digital, /cyber and /data. This @theme holds the union of all four token
+   sets. Where two brands disagree on a token (the ink-* ramp, --color-paper,
+   --font-body, --color-brand-alert) the value here is Technology's, and each
+   sub-brand overrides it in styles/brands.css.
+
+   Tokens unique to a single brand are simply declared here — they cost
+   nothing and never collide.
+   ═════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* ── Rothian Technology brand tokens (extracted from the live logo) ──
-     Navy wordmark #283078 · red power-button gradient #c02828 → #f06870 */
+  /* ── Rothian Technology — navy wordmark #283078, red power button ─────── */
   --color-brand-red: #e03140;
   --color-brand-crimson: #b41e30;
   --color-brand-coral: #ff6a5e;
@@ -10,7 +23,47 @@
   --color-brand-electric: #6b7dff;
   --color-brand-ice: #a9b6ff;
 
-  /* Navy-tinted ink scale — cooler than Rothian Digital's warm purple darks */
+  /* ── Rothian Digital ─────────────────────────────────────────────────── */
+  --color-brand-orange: #ee8722;
+  --color-brand-magenta: #a8187a;
+  --color-brand-amber: #f7a94b;
+  --color-brand-pink: #e81278;
+
+  --color-festival-yellow: #fbbf24;
+  --color-festival-orange: #ee8722;
+  --color-festival-rose: #f43f5e;
+  --color-festival-magenta: #a8187a;
+  --color-festival-violet: #7c3aed;
+  --color-festival-cyan: #22d3ee;
+
+  --color-paper-warm: #f5efe9;
+
+  /* ── Rothian Cyber — deep-sea dark with bioluminescent accents ────────── */
+  --color-brand-violet: #8b5cf6;
+  --color-brand-purple: #6d28d9;
+  --color-brand-cyan: #2dd4ee;
+
+  --color-abyss-950: #04060c;
+  --color-abyss-900: #080c16;
+  --color-abyss-800: #0e1424;
+  --color-abyss-700: #1a2338;
+  --color-abyss-100: #e8ecf5;
+
+  --color-frost: #f4f7fb;
+  --color-frost-dim: #e9eef7;
+
+  /* ── Rothian Data ────────────────────────────────────────────────────── */
+  --color-brand-green: #43d45b;
+  --color-brand-emerald: #23a344;
+  --color-brand-mint: #7ee897;
+
+  --color-paper-dim: #efe9dd;
+  --color-mist: #8b938f;
+
+  /* Contested between Cyber (#f2295b) and Data (#d44345); both scope it. */
+  --color-brand-alert: #f2295b;
+
+  /* ── Contested tokens — Technology's values are the default ──────────── */
   --color-ink-950: #05060e;
   --color-ink-900: #090b18;
   --color-ink-800: #101425;
@@ -24,11 +77,39 @@
   --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
 
+  /* ── Data's fluid editorial type scale (names unique to Data) ─────────── */
+  --text-display: clamp(3rem, 9vw, 8.5rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.035em;
+
+  --text-h1: clamp(2.5rem, 6.4vw, 5.5rem);
+  --text-h1--line-height: 0.98;
+  --text-h1--letter-spacing: -0.03em;
+
+  --text-h2: clamp(2rem, 4.4vw, 3.75rem);
+  --text-h2--line-height: 1.04;
+  --text-h2--letter-spacing: -0.025em;
+
+  --text-h3: clamp(1.375rem, 2vw, 1.875rem);
+  --text-h3--line-height: 1.16;
+  --text-h3--letter-spacing: -0.015em;
+
+  --text-lead: clamp(1.0625rem, 1.3vw, 1.375rem);
+  --text-lead--line-height: 1.6;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: 0.22em;
+
+  /* ── Motion ──────────────────────────────────────────────────────────── */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   --animate-marquee: marquee 42s linear infinite;
   --animate-marquee-reverse: marquee-reverse 36s linear infinite;
   --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 3.2s ease-in-out infinite;
+  --animate-drift: drift 26s ease-in-out infinite alternate;
+  --animate-scan: scan 2.1s ease-in-out infinite;
 
   @keyframes marquee {
     from {
@@ -57,6 +138,31 @@
       transform: scale(0.8);
     }
   }
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  @keyframes drift {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(2%, -3%, 0) scale(1.08);
+    }
+  }
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(280%);
+    }
+  }
 }
 
 :root {
@@ -65,6 +171,7 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html.lenis,
@@ -78,46 +185,26 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* Driven by --site-bg/--site-fg so the body and its overscroll area follow the
+   active brand. See styles/brands.css. */
 body {
-  @apply bg-paper font-body text-ink-900 antialiased;
+  background-color: var(--site-bg);
+  color: var(--site-fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
 }
 
 ::selection {
-  background: var(--color-brand-red);
-  color: #fff;
+  background: var(--selection-bg);
+  color: var(--selection-fg, #fff);
 }
 
-/* ── Utilities ── */
-@utility text-gradient {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-brand-coral) 0%,
-    var(--color-brand-crimson) 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-@utility text-gradient-electric {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-brand-ice) 0%,
-    var(--color-brand-electric) 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-@utility bg-brand-gradient {
-  background-image: linear-gradient(
-    137deg,
-    var(--color-brand-coral) 0%,
-    var(--color-brand-crimson) 100%
-  );
-}
+/* ══════════════════════════════════════════════════════════════════════════
+   Shared utilities
+   Identical in all four sites, or brand-varying via an indirection variable.
+   ═════════════════════════════════════════════════════════════════════════ */
 
 @utility container-site {
   margin-inline: auto;
@@ -129,6 +216,16 @@ body {
   }
   @media (width >= 64rem) {
     padding-inline: 3rem;
+  }
+}
+
+@utility container-reading {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 48rem;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
   }
 }
 
@@ -149,16 +246,40 @@ body {
   text-wrap: balance;
 }
 
-/* Eyebrow label above section headings — mono for the engineering voice */
+/* Eyebrow label above section headings — mono on Technology and Data, body on
+   Digital and Cyber. */
 @utility eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-family: var(--eyebrow-font);
+  font-size: var(--eyebrow-size);
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
-/* Blueprint grid backdrop for dark engineering sections */
+/* Brand gradients resolve per scope. */
+@utility bg-brand-gradient {
+  background-image: var(--brand-gradient);
+}
+
+@utility text-gradient {
+  background-image: var(--brand-text-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* ── Technology-only ─────────────────────────────────────────────────────── */
+@utility text-gradient-electric {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-ice) 0%,
+    var(--color-brand-electric) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 @utility bg-grid-dark {
   background-image:
     linear-gradient(rgba(107, 125, 255, 0.07) 1px, transparent 1px),
@@ -171,6 +292,97 @@ body {
     linear-gradient(rgba(43, 57, 144, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(43, 57, 144, 0.06) 1px, transparent 1px);
   background-size: 44px 44px;
+}
+
+/* ── Digital-only ────────────────────────────────────────────────────────── */
+@utility bg-festival-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-festival-yellow) 0%,
+    var(--color-festival-orange) 26%,
+    var(--color-festival-rose) 52%,
+    var(--color-festival-magenta) 74%,
+    var(--color-festival-violet) 100%
+  );
+}
+
+@utility text-festival-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-festival-yellow) 0%,
+    var(--color-festival-orange) 24%,
+    var(--color-festival-rose) 50%,
+    var(--color-festival-magenta) 72%,
+    var(--color-festival-violet) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Hairline rule that fades out at both ends. */
+@utility divider-fade {
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, currentColor 22%, transparent),
+    transparent
+  );
+}
+
+/* Focus ring used across interactive surfaces. */
+@utility focus-brand {
+  &:focus-visible {
+    outline: 2px solid var(--color-brand-magenta);
+    outline-offset: 3px;
+  }
+}
+
+/* ── Cyber-only ──────────────────────────────────────────────────────────── */
+@utility bg-cyber-grid {
+  background-image:
+    linear-gradient(to right, rgb(139 92 246 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(139 92 246 / 0.05) 1px, transparent 1px);
+  background-size: 3.5rem 3.5rem;
+}
+
+/* ── Data-only ───────────────────────────────────────────────────────────── */
+@utility bg-data-grid {
+  background-image:
+    linear-gradient(to right, rgb(67 212 91 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(67 212 91 / 0.045) 1px, transparent 1px);
+  background-size: 3.5rem 3.5rem;
+}
+
+/* Hairline rule that reads as a trace on the dark canvas */
+@utility rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-ink-700) 12%,
+    var(--color-ink-700) 88%,
+    transparent
+  );
+}
+
+/* Ambient phosphor bloom behind heroes and CTAs */
+@utility bloom {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    color-mix(in oklab, var(--color-brand-green) 34%, transparent),
+    transparent 70%
+  );
+}
+
+@utility edge-fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
 /* Respect reduced motion globally */
