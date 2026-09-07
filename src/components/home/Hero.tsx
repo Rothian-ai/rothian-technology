@@ -9,7 +9,7 @@ import { SOCIAL_ICON_MAP } from '../ui/SocialIcons'
 const TITLE_LINES: { words: string[]; gradient?: number[] }[] = [
   { words: ['Fresh', 'ideas.'] },
   { words: ['Agile', 'solutions.'] },
-  { words: ['Powering', 'business.'], gradient: [0] },
+  { words: ['Empowering', 'business.'], gradient: [0] },
 ]
 
 const LIFECYCLE = ['Design', 'Develop', 'Deliver', 'Operate']
@@ -62,27 +62,6 @@ export function Hero() {
             'radial-gradient(ellipse 75% 60% at 45% 45%, transparent 30%, rgba(5,6,14,0.8) 100%)',
         }}
       />
-
-      {/* Rebrand logo animation — ambient, top right.
-          `mix-blend-mode: screen` drops the video's black background: browsers that
-          don't support WebM alpha (e.g. Safari) render it as opaque black, and screen
-          blend knocks black out against the dark hero — so only the logo shows. */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1.4, ease: EASE }}
-        className="pointer-events-none absolute right-[6%] top-24 hidden w-56 mix-blend-screen xl:block"
-        aria-hidden
-      >
-        <video
-          src="/videos/rothian-logo-animation.webm"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full mix-blend-screen"
-        />
-      </motion.div>
 
       {/* Vertical social rail */}
       <motion.ul

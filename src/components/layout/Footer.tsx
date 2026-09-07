@@ -72,8 +72,8 @@ export function Footer() {
         <div className="grid gap-14 lg:grid-cols-[1.3fr_1fr] lg:items-end">
           <div>
             <SplitText
-              text="Powering your business."
-              highlight={['Powering']}
+              text="Empowering your business."
+              highlight={['Empowering']}
               as="h2"
               className="heading-display text-5xl text-white sm:text-7xl"
             />
@@ -169,7 +169,7 @@ export function Footer() {
             <Link to="/" aria-label="Rothian — Home">
               <img
                 src="/logos/rothian-tech-logo-white.png"
-                alt="Rothian — Powering Business"
+                alt="Rothian — Empowering Business"
                 className="h-9 w-auto"
                 loading="lazy"
                 width={117}

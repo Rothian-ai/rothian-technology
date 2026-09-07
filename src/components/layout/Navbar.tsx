@@ -99,7 +99,7 @@ export function Navbar() {
             <Link to="/" className="shrink-0" aria-label="Rothian — Home">
               <img
                 src="/logos/rothian-tech-logo-white.png"
-                alt="Rothian — Powering Business"
+                alt="Rothian — Empowering Business"
                 className="h-8 w-auto sm:h-9"
                 width={466}
                 height={138}

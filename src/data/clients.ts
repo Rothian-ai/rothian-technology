@@ -13,7 +13,7 @@ export const CLIENTS: Client[] = [
 
 /** Headline numbers, derived from the live site's own content. */
 export const STATS = [
-  { to: 8, suffix: '+', label: 'Years powering business' },
+  { to: 8, suffix: '+', label: 'Years empowering business' },
   { to: 5, prefix: '0', label: 'Capability practices' },
   { to: 25, suffix: '+', label: 'Specialist services' },
   { to: 24, suffix: '/7', label: 'SOC monitoring' },

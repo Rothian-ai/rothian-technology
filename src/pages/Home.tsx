@@ -11,7 +11,7 @@ import { usePageMeta } from '../lib/seo'
 
 export default function Home() {
   usePageMeta(
-    'Rothian | Powering Business — Technology Consultancy',
+    'Rothian | Empowering Business — Technology Consultancy',
     'Fresh ideas and agile solutions. Rothian delivers strategy, design, development, delivery and operations through Application, Cloud, Cyber, Data and Digital capabilities.',
   )
 
