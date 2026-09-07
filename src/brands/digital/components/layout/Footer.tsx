@@ -8,12 +8,14 @@ import { CONTACT, SOCIALS } from '../../lib/nav'
 import { METHOD } from '../../data/journey'
 import { NAV_ITEMS } from '../../lib/nav'
 
+/** Each capability now leads to the group site that owns it. Cloud has no
+ *  sibling brand, so it stays on the main site's own capability page. */
 const CAPABILITIES = [
-  { label: 'Application', href: 'https://rothian.com/category/capabilities/application/' },
-  { label: 'Cloud', href: 'https://rothian.com/category/capabilities/cloud/' },
-  { label: 'Cyber', href: 'https://rothian.com/category/capabilities/cyber/' },
-  { label: 'Data', href: 'https://rothian.com/category/capabilities/data/' },
-  { label: 'Digital', href: 'https://rothian.com/category/capabilities/digital/' },
+  { label: 'Application', to: '/ui4ai' },
+  { label: 'Cloud', to: '/capabilities/cloud' },
+  { label: 'Cyber', to: '/cyber' },
+  { label: 'Data', to: '/data' },
+  { label: 'Digital', to: '/digital' },
 ]
 
 export function Footer() {
@@ -156,14 +158,12 @@ export function Footer() {
             <ul className="flex flex-col gap-3">
               {CAPABILITIES.map((c) => (
                 <li key={c.label}>
-                  <a
-                    href={c.href}
-                    target="_blank"
-                    rel="noreferrer"
+                  <Link
+                    to={c.to}
                     className="text-sm text-white/65 transition-colors hover:text-festival-yellow focus-brand"
                   >
                     {c.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -172,28 +172,23 @@ export function Footer() {
           <nav aria-label="The Rothian group">
             <h3 className="eyebrow mb-5 text-white/35">Rothian Group</h3>
             <ul className="flex flex-col gap-3">
+              {[
+                { label: 'Rothian — Technology', to: '/' },
+                { label: 'Rothian — Cyber', to: '/cyber' },
+                { label: 'Rothian — Data', to: '/data' },
+                { label: 'Rothian — App', to: '/ui4ai' },
+              ].map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    className="text-sm text-white/65 transition-colors hover:text-festival-yellow focus-brand"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
               <li>
-                <a
-                  href="https://rothian.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm text-white/65 transition-colors hover:text-festival-yellow focus-brand"
-                >
-                  Rothian — Technology
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://rothian.com/category/capabilities/cyber/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm text-white/65 transition-colors hover:text-festival-yellow focus-brand"
-                >
-                  Rothian — Cyber
-                </a>
-              </li>
-              <li>
-                <span className="text-sm text-white/30">Powering Business.</span>
+                <span className="text-sm text-white/30">Empowering Business.</span>
               </li>
             </ul>
           </nav>

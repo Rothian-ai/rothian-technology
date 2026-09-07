@@ -64,16 +64,9 @@ export function Footer() {
 
             <FooterColumn title="Capabilities">
               {footerCapabilities.map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="text-[0.9375rem] text-paper/55 transition-colors duration-300 hover:text-brand-green"
-                  >
-                    {l.label}
-                  </a>
-                </li>
+                <FooterLink key={l.href} to={l.href}>
+                  {l.label}
+                </FooterLink>
               ))}
             </FooterColumn>
           </nav>

@@ -53,7 +53,7 @@ export default function Solutions() {
                     Get Started
                   </Button>
                   {solution.href && (
-                    <Button href={solution.href} target="_blank" rel="noreferrer" variant="outline">
+                    <Button to={solution.href} variant="outline">
                       Specialist site
                       <ArrowUpRight className="size-4" aria-hidden />
                     </Button>

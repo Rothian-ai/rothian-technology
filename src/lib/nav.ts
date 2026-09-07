@@ -59,9 +59,9 @@ export const CONTACT = {
  *  `accent` is each company's 2026 wordmark chip colour, so the swatch beside
  *  a logo always matches the mark itself.
  *
- *  Digital, Cyber and Data are now sections of this site, so their `href` is a
- *  path and they open in the same tab. Apps is still a separate property and
- *  stays an external link — consumers switch on the leading slash. */
+ *  All four are now sections of this site, so every `href` is a path and opens
+ *  in the same tab. Consumers still switch on the leading slash, so an external
+ *  entry can be added back without touching them. */
 export const GROUP_NETWORK = [
   {
     name: 'Rothian Digital',
@@ -88,10 +88,9 @@ export const GROUP_NETWORK = [
     blurb: 'Data analytics, engineering and transformation.',
   },
   {
-    name: 'Rothian Apps',
+    name: 'Rothian App',
     accent: '#F9FF61',
-    // Interim: the preview deployment, until app.rothian.com is live.
-    href: 'https://rothian-solutions.vercel.app',
+    href: '/ui4ai',
     logo: '/logos/rothian-apps-logo.png',
     logoMono: '/logos/rothian-apps-logo-mono.png',
     blurb: 'Web and mobile application development.',

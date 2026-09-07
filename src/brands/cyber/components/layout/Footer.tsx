@@ -22,12 +22,14 @@ const QUICK_LINKS = [
   { label: 'Our Experts', to: '/cyber/about/experts' },
 ]
 
+/** Each capability now leads to the group site that owns it. Cloud has no
+ *  sibling brand, so it stays on the main site's own capability page. */
 const CAPABILITY_LINKS = [
-  { label: 'Application', href: 'https://rothian.com/category/capabilities/application/' },
-  { label: 'Cloud', href: 'https://rothian.com/category/capabilities/cloud/' },
-  { label: 'Cyber', href: 'https://rothian.com/category/capabilities/cyber/' },
-  { label: 'Data', href: 'https://rothian.com/category/capabilities/data/' },
-  { label: 'Digital', href: 'https://rothian.com/category/capabilities/digital/' },
+  { label: 'Application', to: '/ui4ai' },
+  { label: 'Cloud', to: '/capabilities/cloud' },
+  { label: 'Cyber', to: '/cyber' },
+  { label: 'Data', to: '/data' },
+  { label: 'Digital', to: '/digital' },
 ]
 
 /** Dark cinematic footer: marquee tagline, huge CTA, sitemap columns — the Rothian family footer. */
@@ -148,33 +150,22 @@ export function Footer() {
           </div>
           {(
             [
-              ['Overview', OVERVIEW_LINKS, false],
-              ['Quick Links', QUICK_LINKS, false],
-              ['Capabilities', CAPABILITY_LINKS, true],
+              ['Overview', OVERVIEW_LINKS],
+              ['Quick Links', QUICK_LINKS],
+              ['Capabilities', CAPABILITY_LINKS],
             ] as const
-          ).map(([title, links, external]) => (
+          ).map(([title, links]) => (
             <nav key={title} aria-label={title}>
               <h3 className="eyebrow mb-5 text-white/40">{title}</h3>
               <ul className="flex flex-col gap-3">
                 {links.map((link) => (
                   <li key={link.label}>
-                    {external ? (
-                      <a
-                        href={(link as { href: string }).href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm text-white/70 transition-colors hover:text-brand-cyan"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        to={(link as { to: string }).to}
-                        className="text-sm text-white/70 transition-colors hover:text-brand-cyan"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
+                    <Link
+                      to={link.to}
+                      className="text-sm text-white/70 transition-colors hover:text-brand-cyan"
+                    >
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
                 {title === 'Overview' && (

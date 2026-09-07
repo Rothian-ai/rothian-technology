@@ -36,9 +36,7 @@ export default function CapabilityDetail() {
         </Button>
         {capability.network && (
           <Button
-            href={capability.network.href}
-            target="_blank"
-            rel="noreferrer"
+            to={capability.network.href}
             size="lg"
             variant="ghost"
             className="border border-white/25 bg-white/5 text-white backdrop-blur-sm hover:border-white/50 hover:text-white"
@@ -100,7 +98,7 @@ export default function CapabilityDetail() {
                   is the group company dedicated to it.
                 </p>
               </div>
-              <Button href={capability.network.href} target="_blank" rel="noreferrer" withArrow>
+              <Button to={capability.network.href} withArrow>
                 Visit {capability.network.name}
               </Button>
             </Reveal>

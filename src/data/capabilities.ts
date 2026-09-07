@@ -83,7 +83,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     stack: ['React', 'Angular', 'Flutter', 'React Native', 'iOS', 'Android', 'Power Platform', 'Dynamics 365'],
-    network: { name: 'Rothian Apps', href: 'https://rothian-solutions.vercel.app' },
+    network: { name: 'Rothian App', href: '/ui4ai' },
     accentIcon: AppWindow,
   },
   {
@@ -166,7 +166,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     stack: ['OWASP', 'SAST', 'DAST', 'Pen Testing', 'IAM', 'SOC'],
-    network: { name: 'Rothian Cyber', href: 'https://cyber.rothian.com' },
+    network: { name: 'Rothian Cyber', href: '/cyber' },
     accentIcon: ShieldCheck,
   },
   {
@@ -198,7 +198,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     stack: ['Machine Learning', 'Python', 'APIs', 'Power BI', 'Data Pipelines'],
-    network: { name: 'Rothian Data', href: 'https://data.rothian.com' },
+    network: { name: 'Rothian Data', href: '/data' },
     accentIcon: Database,
   },
   {
@@ -240,7 +240,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     stack: ['AEM', 'Sitecore', 'Drupal', 'Umbraco', 'WordPress', 'SEO'],
-    network: { name: 'Rothian Digital', href: 'https://digital.rothian.com' },
+    network: { name: 'Rothian Digital', href: '/digital' },
     accentIcon: Megaphone,
   },
 ]

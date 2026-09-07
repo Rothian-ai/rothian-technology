@@ -21,7 +21,7 @@ export const SOLUTIONS: Solution[] = [
     body: 'We monitor IT infrastructures around the clock to detect cybersecurity events in real time — and address them as quickly and effectively as possible. Detection, triage and response, delivered as a managed service.',
     highlights: ['24/7/365 monitoring', 'Real-time detection', 'Rapid incident response', 'Managed service'],
     icon: Radar,
-    href: 'https://cyber.rothian.com',
+    href: '/cyber',
   },
   {
     slug: 'ciso-as-a-service',
@@ -30,7 +30,7 @@ export const SOLUTIONS: Solution[] = [
     body: "We have led security transformations for some of the world's largest and most complex organisations. Get that experience on demand — strategy, governance and board-level accountability, scaled to your organisation.",
     highlights: ['Board-level security leadership', 'Security transformation', 'Governance & compliance', 'On-demand scale'],
     icon: UserCog,
-    href: 'https://cyber.rothian.com',
+    href: '/cyber',
   },
   {
     slug: 'app-factory',
@@ -39,7 +39,7 @@ export const SOLUTIONS: Solution[] = [
     body: 'Standalone app development for small-to-medium enterprises and corporate departments. High-impact digital experiences delivered in two-week sprints over a 4-to-16-week period, sized by scope and complexity.',
     highlights: ['2-week sprints', '4–16 week delivery', 'Fixed, transparent scope', 'SME & departmental focus'],
     icon: Factory,
-    href: 'https://rothian-solutions.vercel.app',
+    href: '/ui4ai',
   },
   {
     slug: 'digital-marketing',
@@ -48,6 +48,6 @@ export const SOLUTIONS: Solution[] = [
     body: 'Campaigns across Facebook, Instagram, X, LinkedIn and TikTok — strategy, content and management delivered with our AI-native sister company, Rothian Digital.',
     highlights: ['Social media management', 'Campaign management', 'SEO & content', 'AI-native tooling'],
     icon: Megaphone,
-    href: 'https://digital.rothian.com',
+    href: '/digital',
   },
 ]

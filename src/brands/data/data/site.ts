@@ -42,13 +42,14 @@ export const footerOverview: NavItem[] = [
   { label: 'Contact Us', href: '/data/contact' },
 ];
 
-/** "Capabilities" column — these point at the parent Rothian group site. */
+/** "Capabilities" column — each leads to the group site that owns it. Cloud has
+ *  no sibling brand, so it stays on the main site's own capability page. */
 export const footerCapabilities: NavItem[] = [
-  { label: 'Application', href: 'https://rothian.com/category/capabilities/application/' },
-  { label: 'Cloud', href: 'https://rothian.com/category/capabilities/cloud/' },
-  { label: 'Cyber', href: 'https://rothian.com/category/capabilities/cyber/' },
-  { label: 'Data', href: 'https://rothian.com/category/capabilities/data/' },
-  { label: 'Digital', href: 'https://rothian.com/category/capabilities/digital/' },
+  { label: 'Application', href: '/ui4ai' },
+  { label: 'Cloud', href: '/capabilities/cloud' },
+  { label: 'Cyber', href: '/cyber' },
+  { label: 'Data', href: '/data' },
+  { label: 'Digital', href: '/digital' },
 ];
 
 export const socials = [
