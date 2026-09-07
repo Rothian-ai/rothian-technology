@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="300" viewBox="0 0 480 300" fill="none" role="img" aria-label="Geometric construction plate">
+  <g stroke="#F4F2ED" stroke-opacity="0.3" stroke-width="0.8" fill="none">
+    <path d="M0 50 H480 M0 100 H480 M0 150 H480 M0 200 H480 M0 250 H480" stroke-opacity="0.07"/>
+    <path d="M48 0 V300 M144 0 V300 M240 0 V300 M336 0 V300 M432 0 V300" stroke-opacity="0.07"/>
+    <!-- deformed lattice: a frame bent by a mass -->
+    <path d="M20 96 C 140 96, 180 138, 240 138 S 340 96, 460 96" stroke-opacity="0.24"/>
+    <path d="M20 130 C 140 130, 176 178, 240 178 S 344 130, 460 130" stroke-opacity="0.2"/>
+    <path d="M20 164 C 140 164, 176 212, 240 212 S 344 164, 460 164" stroke-opacity="0.15"/>
+    <!-- construction -->
+    <circle cx="240" cy="164" r="58" stroke-opacity="0.24"/>
+    <circle cx="240" cy="164" r="30" stroke-opacity="0.14" stroke-dasharray="3 5"/>
+    <path d="M182 164 L298 164 M240 106 L240 222" stroke-opacity="0.18"/>
+    <path d="M240 106 L298 196 L182 196 Z" stroke-opacity="0.42"/>
+    <path d="M120 240 L240 106 L360 240" stroke-opacity="0.16"/>
+  </g>
+  <g fill="#F4F2ED" fill-opacity="0.45">
+    <circle cx="240" cy="106" r="2.6"/><circle cx="298" cy="196" r="2.6"/><circle cx="182" cy="196" r="2.6"/>
+    <circle cx="240" cy="164" r="1.8"/>
+  </g>
+  <g fill="#F4F2ED" fill-opacity="0.22" font-family="ui-monospace, monospace" font-size="8" letter-spacing="1.4">
+    <text x="20" y="28">FIG. II — FRAME OF REFERENCE</text>
+    <text x="20" y="278">DEFORMATION UNDER MASS</text>
+  </g>
+</svg>

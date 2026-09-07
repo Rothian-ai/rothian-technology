@@ -136,6 +136,51 @@
   --eyebrow-size: 0.6875rem;
 }
 
+/* ── Rothian App (UI4AI) — obsidian ground, per-agent signature ──────────
+   The agent variables are the live scene: SceneProvider rewrites them as the
+   page scrolls, and gradients, borders, glows and canvas fields all read from
+   them, so the whole page shifts colour together. The values here are the
+   monochrome resting state the original site booted with.                   */
+:root[data-brand='ui4ai'] {
+  --color-paper: #f4f2ed;
+
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --nav-h: 68px;
+
+  --agent-primary: 148 152 170;
+  --agent-accent: 120 124 145;
+  --agent-glow: 170 174 190;
+  --agent-mix: 0; /* 0 = monochrome foundation, 1 = full agent colour */
+
+  --site-bg: var(--color-obsidian);
+  --site-fg: rgb(255 255 255 / 0.64);
+  --selection-bg: rgb(var(--agent-primary) / 0.4);
+  --selection-fg: #fff;
+
+  /* Digital defines a different `drift`; point this scope at ui4ai's. */
+  --animate-drift: ui4ai-drift 22s ease-in-out infinite;
+  --animate-marquee: marquee 46s linear infinite;
+
+  /* The page builds its greyscale hierarchy from the brand gradient too. */
+  --brand-gradient: linear-gradient(
+    100deg,
+    rgb(var(--agent-primary)) 0%,
+    rgb(var(--agent-accent)) 100%
+  );
+  --brand-text-gradient: linear-gradient(
+    92deg,
+    rgb(var(--agent-glow)) 0%,
+    rgb(var(--agent-accent)) 52%,
+    rgba(244, 242, 237, 0.86) 100%
+  );
+
+  --eyebrow-font: var(--font-mono);
+  --eyebrow-size: var(--text-2xs);
+}
+
 /* ── Brand-scoped base rules ────────────────────────────────────────────── */
 
 /* The main site is light; every sub-brand is dark. */
@@ -180,4 +225,41 @@
 :root[data-brand='digital'] :focus-visible {
   outline: 2px solid var(--color-brand-magenta);
   outline-offset: 3px;
+}
+
+/* UI4AI leans on hairline borders everywhere; the standalone site set a
+   default border colour on `*` so every bordered element inherited it. */
+:root[data-brand='ui4ai'] * {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-brand='ui4ai'] body {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+}
+
+:root[data-brand='ui4ai'] :is(h1, h2, h3, h4) {
+  color: var(--color-paper);
+  text-wrap: balance;
+}
+
+:root[data-brand='ui4ai'] :focus-visible {
+  outline: 2px solid rgb(var(--agent-accent));
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+:root[data-brand='ui4ai'] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+:root[data-brand='ui4ai'] ::-webkit-scrollbar-track {
+  background: #08080c;
+}
+:root[data-brand='ui4ai'] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  border: 3px solid #08080c;
+}
+:root[data-brand='ui4ai'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }

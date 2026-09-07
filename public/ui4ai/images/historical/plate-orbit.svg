@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="300" viewBox="0 0 480 300" fill="none" role="img" aria-label="Orbital diagram plate">
+  <g stroke="#F4F2ED" stroke-opacity="0.3" stroke-width="0.8" fill="none">
+    <ellipse cx="240" cy="152" rx="196" ry="86" stroke-opacity="0.16"/>
+    <ellipse cx="240" cy="152" rx="146" ry="62" stroke-opacity="0.22" transform="rotate(-9 240 152)"/>
+    <ellipse cx="240" cy="152" rx="94" ry="38" stroke-opacity="0.3" transform="rotate(7 240 152)"/>
+    <ellipse cx="240" cy="152" rx="46" ry="18" stroke-opacity="0.36" transform="rotate(-14 240 152)"/>
+    <!-- force vectors -->
+    <path d="M240 152 L372 118" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+    <path d="M240 152 L142 196" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+    <path d="M372 118 L360 104 M372 118 L358 122" stroke-opacity="0.3"/>
+    <!-- trajectory arc -->
+    <path d="M64 214 C 150 96, 340 84, 428 148" stroke-opacity="0.28"/>
+  </g>
+  <g fill="#F4F2ED">
+    <circle cx="240" cy="152" r="5" fill-opacity="0.5"/>
+    <circle cx="372" cy="118" r="3" fill-opacity="0.45"/>
+    <circle cx="142" cy="196" r="2.4" fill-opacity="0.35"/>
+    <circle cx="300" cy="120" r="2" fill-opacity="0.3"/>
+  </g>
+  <g fill="#F4F2ED" fill-opacity="0.22" font-family="ui-monospace, monospace" font-size="8" letter-spacing="1.4">
+    <text x="20" y="28">FIG. IV — SYSTEM IN MOTION</text>
+    <text x="20" y="278">EQUAL AREAS, EQUAL TIMES</text>
+  </g>
+</svg>

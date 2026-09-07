@@ -9,7 +9,10 @@ export default defineConfig({
     // Rothian Data was authored standalone with an `@/` alias onto its own src.
     // Scoped to `@data/` here so it cannot collide with the main site or the
     // other brands as they move in.
-    alias: { '@data': path.resolve(import.meta.dirname, './src/brands/data') },
+    alias: {
+      '@data': path.resolve(import.meta.dirname, './src/brands/data'),
+      '@ui4ai': path.resolve(import.meta.dirname, './src/brands/ui4ai'),
+    },
   },
   build: {
     rollupOptions: {

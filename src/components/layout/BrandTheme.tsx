@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react'
 
-export type Brand = 'digital' | 'cyber' | 'data'
+export type Brand = 'digital' | 'cyber' | 'data' | 'ui4ai'
 
 /**
  * Applies a brand's theme scope for as long as the subtree is mounted.

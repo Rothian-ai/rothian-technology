@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="300" viewBox="0 0 480 300" fill="none" role="img" aria-label="Laboratory measurement plate">
+  <g stroke="#F4F2ED" stroke-opacity="0.3" stroke-width="0.8" fill="none">
+    <!-- notebook rule -->
+    <path d="M0 40 H480 M0 76 H480 M0 112 H480 M0 148 H480 M0 184 H480 M0 220 H480 M0 256 H480" stroke-opacity="0.06"/>
+    <path d="M56 0 V300" stroke-opacity="0.12"/>
+    <!-- measurement rings -->
+    <circle cx="286" cy="150" r="106" stroke-opacity="0.1" stroke-dasharray="2 8"/>
+    <circle cx="286" cy="150" r="76" stroke-opacity="0.14" stroke-dasharray="2 8"/>
+    <circle cx="286" cy="150" r="46" stroke-opacity="0.2" stroke-dasharray="2 8"/>
+    <circle cx="286" cy="150" r="18" stroke-opacity="0.32"/>
+    <!-- reading axes -->
+    <path d="M286 44 V256 M180 150 H392" stroke-opacity="0.1"/>
+    <path d="M211 75 L361 225 M361 75 L211 225" stroke-opacity="0.07"/>
+    <!-- plotted readings -->
+    <path d="M80 232 L116 214 L152 220 L188 186 L224 192 L260 148 L296 156 L332 108 L368 116 L404 74" stroke-opacity="0.42"/>
+  </g>
+  <g fill="#F4F2ED">
+    <circle cx="286" cy="150" r="2.6" fill-opacity="0.6"/>
+    <circle cx="332" cy="108" r="2.2" fill-opacity="0.5"/>
+    <circle cx="224" cy="192" r="2.2" fill-opacity="0.4"/>
+    <circle cx="404" cy="74" r="2.6" fill-opacity="0.55"/>
+    <circle cx="342" cy="196" r="1.6" fill-opacity="0.3"/>
+    <circle cx="238" cy="106" r="1.6" fill-opacity="0.3"/>
+  </g>
+  <g fill="#F4F2ED" fill-opacity="0.22" font-family="ui-monospace, monospace" font-size="8" letter-spacing="1.4">
+    <text x="16" y="28">OBS. 14 — SERIES C</text>
+    <text x="16" y="278">READING ABOVE BACKGROUND</text>
+  </g>
+</svg>

@@ -10,7 +10,8 @@
 
     /* Bundler mode */
     "paths": {
-      "@data/*": ["./src/brands/data/*"]
+      "@data/*": ["./src/brands/data/*"],
+      "@ui4ai/*": ["./src/brands/ui4ai/*"]
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
