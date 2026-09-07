@@ -9,6 +9,9 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
+    "paths": {
+      "@data/*": ["./src/brands/data/*"]
+    },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,

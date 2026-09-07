@@ -23,6 +23,7 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 // mounted beside the main site's shell rather than inside it.
 const CyberApp = lazy(() => import('./brands/cyber/CyberApp'))
 const DigitalApp = lazy(() => import('./brands/digital/DigitalApp'))
+const DataApp = lazy(() => import('./brands/data/DataApp'))
 
 /** /services/:slug serves both the 5 category pages and the 31 sub-service post pages (live-site URL parity). */
 function ServiceRoute() {
@@ -91,6 +92,7 @@ export default function App() {
         <Routes>
           <Route path="/cyber/*" element={<CyberApp />} />
           <Route path="/digital/*" element={<DigitalApp />} />
+          <Route path="/data/*" element={<DataApp />} />
           <Route path="/*" element={<MainSite />} />
         </Routes>
       </Suspense>
