@@ -39,7 +39,7 @@ export const SOLUTIONS: Solution[] = [
     body: 'Standalone app development for small-to-medium enterprises and corporate departments. High-impact digital experiences delivered in two-week sprints over a 4-to-16-week period, sized by scope and complexity.',
     highlights: ['2-week sprints', '4–16 week delivery', 'Fixed, transparent scope', 'SME & departmental focus'],
     icon: Factory,
-    href: 'https://app.rothian.com',
+    href: 'https://rothian-solutions.vercel.app',
   },
   {
     slug: 'digital-marketing',

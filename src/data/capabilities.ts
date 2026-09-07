@@ -83,7 +83,7 @@ export const CAPABILITIES: Capability[] = [
       },
     ],
     stack: ['React', 'Angular', 'Flutter', 'React Native', 'iOS', 'Android', 'Power Platform', 'Dynamics 365'],
-    network: { name: 'Rothian Apps', href: 'https://app.rothian.com' },
+    network: { name: 'Rothian Apps', href: 'https://rothian-solutions.vercel.app' },
     accentIcon: AppWindow,
   },
   {

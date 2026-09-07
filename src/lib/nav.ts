@@ -90,7 +90,8 @@ export const GROUP_NETWORK = [
   {
     name: 'Rothian Apps',
     accent: '#F9FF61',
-    href: 'https://app.rothian.com',
+    // Interim: the preview deployment, until app.rothian.com is live.
+    href: 'https://rothian-solutions.vercel.app',
     logo: '/logos/rothian-apps-logo.png',
     logoMono: '/logos/rothian-apps-logo-mono.png',
     blurb: 'Web and mobile application development.',
