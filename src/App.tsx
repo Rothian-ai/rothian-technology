@@ -19,6 +19,10 @@ const Careers = lazy(() => import('./pages/Careers'))
 const Contact = lazy(() => import('./pages/Contact'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
+// Group brands. Each ships its own navbar, footer and theme scope, so they are
+// mounted beside the main site's shell rather than inside it.
+const CyberApp = lazy(() => import('./brands/cyber/CyberApp'))
+
 /** /services/:slug serves both the 5 category pages and the 31 sub-service post pages (live-site URL parity). */
 function ServiceRoute() {
   const { slug } = useParams()
@@ -33,18 +37,10 @@ function PageFallback() {
   )
 }
 
-export default function App() {
-  useLenis()
-
+/** Rothian Technology — the main rothian.com site, with its own chrome. */
+function MainSite() {
   return (
-    <MotionConfig reducedMotion="user">
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-brand-gradient focus:px-5 focus:py-3 focus:text-sm focus:text-white"
-      >
-        Skip to content
-      </a>
-      <ScrollManager />
+    <>
       <Navbar />
       <main id="main-content">
         <Suspense fallback={<PageFallback />}>
@@ -63,6 +59,39 @@ export default function App() {
         </Suspense>
       </main>
       <Footer />
+    </>
+  )
+}
+
+/**
+ * rothian.com hosts the main Technology site plus the group brands at /digital,
+ * /cyber and /data.
+ *
+ * Each brand renders its own navbar and footer, so the brand routes sit
+ * alongside MainSite rather than inside it. What stays here at the root is
+ * everything there must only ever be one of: the Lenis smooth-scroll instance,
+ * MotionConfig and the scroll-restoration manager. Each brand shipped its own
+ * copy of all three as a standalone site; mounting those would leave several
+ * Lenis instances fighting over the same scroll.
+ */
+export default function App() {
+  useLenis()
+
+  return (
+    <MotionConfig reducedMotion="user">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-brand-gradient focus:px-5 focus:py-3 focus:text-sm focus:text-white"
+      >
+        Skip to content
+      </a>
+      <ScrollManager />
+      <Suspense fallback={<PageFallback />}>
+        <Routes>
+          <Route path="/cyber/*" element={<CyberApp />} />
+          <Route path="/*" element={<MainSite />} />
+        </Routes>
+      </Suspense>
     </MotionConfig>
   )
 }
