@@ -22,6 +22,7 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 // Group brands. Each ships its own navbar, footer and theme scope, so they are
 // mounted beside the main site's shell rather than inside it.
 const CyberApp = lazy(() => import('./brands/cyber/CyberApp'))
+const DigitalApp = lazy(() => import('./brands/digital/DigitalApp'))
 
 /** /services/:slug serves both the 5 category pages and the 31 sub-service post pages (live-site URL parity). */
 function ServiceRoute() {
@@ -89,6 +90,7 @@ export default function App() {
       <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route path="/cyber/*" element={<CyberApp />} />
+          <Route path="/digital/*" element={<DigitalApp />} />
           <Route path="/*" element={<MainSite />} />
         </Routes>
       </Suspense>
