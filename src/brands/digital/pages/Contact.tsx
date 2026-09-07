@@ -95,7 +95,9 @@ export default function Contact() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        // /api/contact is shared across the group; `brand` decides the subject
+        // line and which mailbox the enquiry routes to.
+        body: JSON.stringify({ ...payload, brand: 'digital' }),
       })
       const body = await res.json().catch(() => ({}) as ContactResponse)
 

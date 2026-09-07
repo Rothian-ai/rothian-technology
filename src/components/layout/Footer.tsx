@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ElementType } from 'react'
 import { ArrowUpRight, CalendarClock, Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { CONTACT, GROUP_NETWORK, SOCIALS } from '../../lib/nav'
@@ -103,12 +103,19 @@ export function Footer() {
           <Reveal delay={0.25}>
             <p className="eyebrow mb-5 text-brand-ice">Explore our network</p>
             <ul className="flex flex-col gap-3">
-              {GROUP_NETWORK.map((company) => (
+              {GROUP_NETWORK.map((company) => {
+                // Digital, Cyber and Data are sections of this site; Apps is
+                // still a separate property.
+                const internal = company.href.startsWith('/')
+                const Tag: ElementType = internal ? Link : 'a'
+                const linkProps: Record<string, unknown> = internal
+                  ? { to: company.href }
+                  : { href: company.href, target: '_blank', rel: 'noreferrer' }
+
+                return (
                 <li key={company.name}>
-                  <a
-                    href={company.href}
-                    target="_blank"
-                    rel="noreferrer"
+                  <Tag
+                    {...linkProps}
                     style={{ '--accent': company.accent } as CSSProperties}
                     className="group relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 py-3.5 pl-6 pr-5 backdrop-blur-sm transition-all duration-300 hover:border-[color:var(--accent)] hover:bg-white/10"
                   >
@@ -131,9 +138,10 @@ export function Footer() {
                       className="size-4 text-white/40 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[color:var(--accent)]"
                       aria-hidden
                     />
-                  </a>
+                  </Tag>
                 </li>
-              ))}
+                )
+              })}
             </ul>
             <div className="mt-8 flex gap-3">
               {SOCIALS.map(({ label, href }) => {

@@ -57,12 +57,16 @@ export const CONTACT = {
 
 /** The wider Rothian Group — sibling companies of Rothian Technology.
  *  `accent` is each company's 2026 wordmark chip colour, so the swatch beside
- *  a logo always matches the mark itself. */
+ *  a logo always matches the mark itself.
+ *
+ *  Digital, Cyber and Data are now sections of this site, so their `href` is a
+ *  path and they open in the same tab. Apps is still a separate property and
+ *  stays an external link — consumers switch on the leading slash. */
 export const GROUP_NETWORK = [
   {
     name: 'Rothian Digital',
     accent: '#D44345',
-    href: 'https://digital.rothian.com',
+    href: '/digital',
     logo: '/logos/rothian-digital-logo.png',
     logoMono: '/logos/rothian-digital-logo-mono.png',
     blurb: 'AI-native digital marketing — social, web, brand and campaigns.',
@@ -70,7 +74,7 @@ export const GROUP_NETWORK = [
   {
     name: 'Rothian Cyber',
     accent: '#2407D4',
-    href: 'https://cyber.rothian.com',
+    href: '/cyber',
     logo: '/logos/rothian-cyber-logo.png',
     logoMono: '/logos/rothian-cyber-logo-mono.png',
     blurb: 'Cybersecurity solutions, security testing and threat management.',
@@ -78,7 +82,7 @@ export const GROUP_NETWORK = [
   {
     name: 'Rothian Data',
     accent: '#43D45B',
-    href: 'https://data.rothian.com',
+    href: '/data',
     logo: '/logos/rothian-data-logo.png',
     logoMono: '/logos/rothian-data-logo-mono.png',
     blurb: 'Data analytics, engineering and transformation.',

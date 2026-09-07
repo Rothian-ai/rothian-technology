@@ -1,4 +1,6 @@
+import type { ElementType } from 'react'
 import { ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { GROUP_NETWORK } from '../../lib/nav'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
@@ -17,12 +19,19 @@ export function NetworkSection() {
           className="mb-16"
         />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {GROUP_NETWORK.map((company, i) => (
+          {GROUP_NETWORK.map((company, i) => {
+            // Digital, Cyber and Data are sections of this site; Apps is still
+            // a separate property.
+            const internal = company.href.startsWith('/')
+            const Tag: ElementType = internal ? Link : 'a'
+            const linkProps: Record<string, unknown> = internal
+              ? { to: company.href }
+              : { href: company.href, target: '_blank', rel: 'noreferrer' }
+
+            return (
             <Reveal key={company.name} delay={i * 0.08}>
-              <a
-                href={company.href}
-                target="_blank"
-                rel="noreferrer"
+              <Tag
+                {...linkProps}
                 className="group flex h-full flex-col rounded-3xl border border-ink-900/10 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-brand-navy/10"
               >
                 <div className="flex h-10 items-center">
@@ -39,9 +48,10 @@ export function NetworkSection() {
                   Visit site
                   <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
                 </span>
-              </a>
+              </Tag>
             </Reveal>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
