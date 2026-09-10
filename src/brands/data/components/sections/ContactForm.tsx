@@ -11,20 +11,40 @@ type Errors = Partial<Record<'name' | 'email' | 'message' | 'consent', string>>;
 
 const serviceOptions = services.map((s) => s.title);
 
+/** Shape returned by /api/contact. `fields` maps a field name to its error. */
+interface ContactResponse {
+  ok?: boolean;
+  error?: string;
+  fields?: Record<string, string>;
+}
+
 /**
  * Contact form. Fields mirror the live site's form exactly.
  *
- * Frontend only: submission is validated client-side and then resolved against
- * a mock so the success state is reviewable. Point `submit()` at the real
- * endpoint to go live — nothing else needs to change.
+ * Posts to /api/contact, the endpoint shared across the group — `brand`
+ * decides the subject line and which mailbox the enquiry routes to.
  */
-async function submit(_data: Record<string, FormDataEntryValue>): Promise<void> {
-  await new Promise((r) => setTimeout(r, 900));
+async function submit(data: Record<string, FormDataEntryValue>): Promise<ContactResponse> {
+  const res = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...data, brand: 'data' }),
+  });
+  const body = (await res.json().catch(() => ({}))) as ContactResponse;
+
+  // Require the explicit ok flag: if /api/contact were ever swallowed by the
+  // SPA rewrite we would get a 200 full of HTML, and showing "sent" for an
+  // enquiry that was never delivered is the worst failure here.
+  if (!res.ok || body.ok !== true) {
+    return { ...body, ok: false, error: body.error ?? 'Something went wrong. Please try again.' };
+  }
+  return body;
 }
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle');
   const [errors, setErrors] = useState<Errors>({});
+  const [formError, setFormError] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,15 +58,29 @@ export function ContactForm() {
     if (!data.consent) next.consent = 'Please accept the privacy policy to continue.';
 
     setErrors(next);
+    setFormError(null);
     if (Object.keys(next).length) {
       form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
       return;
     }
 
     setStatus('submitting');
-    await submit(data);
-    setStatus('sent');
-    form.reset();
+    try {
+      const result = await submit(data);
+      if (result.ok !== true) {
+        // The server validates independently of the checks above, so surface
+        // whatever it rejected rather than claiming the message was sent.
+        setErrors(result.fields ?? {});
+        setFormError(result.error ?? 'Something went wrong. Please try again.');
+        setStatus('idle');
+        return;
+      }
+      setStatus('sent');
+      form.reset();
+    } catch {
+      setFormError('We could not reach the server. Please try again, or email us directly.');
+      setStatus('idle');
+    }
   };
 
   return (
@@ -125,6 +159,22 @@ export function ContactForm() {
                 </p>
               )}
             </div>
+
+            {/* Honeypot — off-screen and untabbable. A bot that fills this in
+                gets a cheerful 200 and nothing is sent. */}
+            <div aria-hidden className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+              <label htmlFor="website">Leave this field empty</label>
+              <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
+
+            {formError && (
+              <p
+                role="alert"
+                className="mt-6 rounded-2xl border border-red-400/30 bg-red-400/10 px-5 py-3.5 text-sm text-red-300"
+              >
+                {formError}
+              </p>
+            )}
 
             <div className="mt-3">
               <Button type="submit" size="lg" disabled={status === 'submitting'} arrow>

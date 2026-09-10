@@ -21,8 +21,21 @@ const INTEREST_GROUPS = [
 
 const ALL_OPTIONS = INTEREST_GROUPS.flatMap((g) => g.options)
 
-const inputClasses =
-  'w-full rounded-2xl border border-ink-900/15 bg-white px-5 py-3.5 text-ink-900 placeholder:text-ink-900/35 transition-colors focus:border-brand-red focus:outline-none'
+const baseInput =
+  'w-full rounded-2xl border bg-white px-5 py-3.5 text-ink-900 placeholder:text-ink-900/35 transition-colors focus:border-brand-red focus:outline-none'
+
+/** Base and invalid states differ only in border colour — never set both. */
+const inputClasses = (invalid?: boolean) =>
+  `${baseInput} ${invalid ? 'border-brand-red/70' : 'border-ink-900/15'}`
+
+type Status = 'idle' | 'sending' | 'sent'
+
+/** Shape returned by /api/contact. `fields` maps a field name to its error. */
+interface ContactResponse {
+  ok?: boolean
+  error?: string
+  fields?: Record<string, string>
+}
 
 export default function Contact() {
   usePageMeta(
@@ -35,12 +48,50 @@ export default function Contact() {
   const [interest, setInterest] = useState(
     ALL_OPTIONS.some((o) => o.value === preselected) ? preselected : '',
   )
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState<Status>('idle')
+  const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
-  const onSubmit = (e: FormEvent) => {
+  const sent = status === 'sent'
+  const sending = status === 'sending'
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Frontend only — connect to the CRM / form endpoint in production.
-    setSent(true)
+    if (sending) return
+
+    // Read the form before awaiting — currentTarget is null once the handler
+    // yields.
+    const payload = Object.fromEntries(new FormData(e.currentTarget))
+
+    setStatus('sending')
+    setError(null)
+    setFieldErrors({})
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // /api/contact is shared across the group; `brand` decides the subject
+        // line and which mailbox the enquiry routes to.
+        body: JSON.stringify({ ...payload, brand: 'technology' }),
+      })
+      const body = (await res.json().catch(() => ({}))) as ContactResponse
+
+      // Require the explicit ok flag: if /api/contact were ever swallowed by
+      // the SPA rewrite we would get a 200 full of HTML, and showing "sent"
+      // for an enquiry that was never delivered is the worst failure here.
+      if (!res.ok || body.ok !== true) {
+        setFieldErrors(body.fields ?? {})
+        setError(body.error ?? 'Something went wrong. Please try again.')
+        setStatus('idle')
+        return
+      }
+
+      setStatus('sent')
+    } catch {
+      setError(`We could not reach the server. Please try again, or email us at ${CONTACT.email}.`)
+      setStatus('idle')
+    }
   }
 
   return (
@@ -154,20 +205,27 @@ export default function Contact() {
                     onSubmit={onSubmit}
                     exit={{ opacity: 0, y: -16 }}
                     transition={{ duration: 0.4, ease: EASE }}
-                    className="grid gap-5"
+                    className="relative grid gap-5"
                   >
                     <div className="grid gap-5 sm:grid-cols-2">
                       <div>
                         <label htmlFor="name" className="eyebrow mb-2 block text-ink-900/50">
                           Name *
                         </label>
-                        <input id="name" name="name" required placeholder="Your name" className={inputClasses} />
+                        <input
+                          id="name"
+                          name="name"
+                          required
+                          placeholder="Your name"
+                          aria-invalid={Boolean(fieldErrors.name)}
+                          className={inputClasses(Boolean(fieldErrors.name))}
+                        />
                       </div>
                       <div>
                         <label htmlFor="company" className="eyebrow mb-2 block text-ink-900/50">
                           Company
                         </label>
-                        <input id="company" name="company" placeholder="Company name" className={inputClasses} />
+                        <input id="company" name="company" placeholder="Company name" className={inputClasses()} />
                       </div>
                     </div>
                     <div className="grid gap-5 sm:grid-cols-2">
@@ -181,14 +239,15 @@ export default function Contact() {
                           type="email"
                           required
                           placeholder="you@company.com"
-                          className={inputClasses}
+                          aria-invalid={Boolean(fieldErrors.email)}
+                          className={inputClasses(Boolean(fieldErrors.email))}
                         />
                       </div>
                       <div>
                         <label htmlFor="phone" className="eyebrow mb-2 block text-ink-900/50">
                           Phone
                         </label>
-                        <input id="phone" name="phone" type="tel" placeholder="+44 ..." className={inputClasses} />
+                        <input id="phone" name="phone" type="tel" placeholder="+44 ..." className={inputClasses()} />
                       </div>
                     </div>
                     <div>
@@ -201,7 +260,7 @@ export default function Contact() {
                         required
                         value={interest}
                         onChange={(e) => setInterest(e.target.value)}
-                        className={`${inputClasses} appearance-none ${interest ? '' : 'text-ink-900/35'}`}
+                        className={`${inputClasses()} appearance-none ${interest ? '' : 'text-ink-900/35'}`}
                       >
                         <option value="" disabled>
                           Select a service, capability or solution
@@ -227,14 +286,31 @@ export default function Contact() {
                         required
                         rows={5}
                         placeholder="What are you trying to achieve? Rough timescales and constraints all help."
-                        className={`${inputClasses} resize-y`}
+                        className={`${inputClasses(Boolean(fieldErrors.message))} resize-y`}
                       />
                     </div>
+                    {/* Honeypot — off-screen and untabbable. A bot that fills
+                        this in gets a cheerful 200 and nothing is sent. */}
+                    <div aria-hidden className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+                      <label htmlFor="website">Leave this field empty</label>
+                      <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                    </div>
+
+                    {error && (
+                      <p
+                        role="alert"
+                        className="rounded-2xl border border-brand-red/30 bg-brand-red/5 px-5 py-3.5 text-sm text-brand-crimson"
+                      >
+                        {error}
+                      </p>
+                    )}
+
                     <button
                       type="submit"
-                      className="group/btn mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-8 py-4 font-display font-medium text-white shadow-[0_8px_30px_-8px_rgba(180,30,48,0.55)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-6px_rgba(224,49,64,0.6)] active:scale-[0.98]"
+                      disabled={sending}
+                      className="group/btn mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-8 py-4 font-display font-medium text-white shadow-[0_8px_30px_-8px_rgba(180,30,48,0.55)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-6px_rgba(224,49,64,0.6)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
                     >
-                      Send Enquiry
+                      {sending ? 'Sending…' : 'Send Enquiry'}
                     </button>
                     <p className="text-center text-xs text-ink-900/40">
                       We'll only use these details to respond to your enquiry.

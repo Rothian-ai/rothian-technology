@@ -35,7 +35,29 @@ function resolveBrand(value: unknown): BrandKey {
 }
 
 /** Field caps — generous for a human, ungenerous for a spam script. */
-const LIMITS = { name: 120, company: 160, email: 254, when: 60, message: 5000 } as const
+const LIMITS = { name: 120, email: 254, message: 5000, detail: 200 } as const
+
+/**
+ * Optional detail fields, with the label each gets in the email.
+ *
+ * The four forms ask different questions — Technology asks what you are
+ * interested in, Cyber asks for a subject and an urgency, Data asks about the
+ * project and service. Rather than force one shape on all of them, the
+ * endpoint accepts this known superset and renders whichever fields arrived.
+ *
+ * A fixed list rather than an arbitrary map: every value is then length-capped
+ * and header-safe by construction, and a caller cannot inject unbounded keys.
+ */
+const DETAIL_FIELDS = [
+  ['company', 'Company'],
+  ['phone', 'Phone'],
+  ['when', 'Best time to talk'],
+  ['interest', 'Interested in'],
+  ['service', 'Service'],
+  ['project', 'Project type'],
+  ['subject', 'Subject'],
+  ['urgency', 'Urgency'],
+] as const
 
 const WINDOW_MS = 60_000
 const MAX_PER_WINDOW = 3
@@ -95,10 +117,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const name = str(body.name, LIMITS.name)
-  const company = str(body.company, LIMITS.company)
   const email = str(body.email, LIMITS.email)
-  const when = str(body.when, LIMITS.when)
   const message = str(body.message, LIMITS.message)
+
+  // Whichever optional fields this brand's form actually asked for.
+  const details = DETAIL_FIELDS.map(([key, label]) => [label, str(body[key], LIMITS.detail)])
+    .filter((entry): entry is [string, string] => entry[1] !== '')
 
   const errors: Record<string, string> = {}
   if (!name) errors.name = 'Please tell us your name.'
@@ -123,11 +147,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const fromName = process.env.SMTP_FROM_NAME ?? brandLabel
   const rows: [string, string][] = [
     ['Name', name],
-    ['Company', company || '—'],
     ['Email', email],
-    ['Best time to talk', when || '—'],
+    ...details,
     ['Enquiry for', brandLabel],
   ]
+
+  // Urgency rides in the subject as well as the body: Cyber tells the visitor
+  // that a critical submission is routed to the rapid-response team, and that
+  // promise is only keepable if it is visible without opening the mail.
+  const urgency = str(body.urgency, LIMITS.detail)
+  const subject = [
+    `[${brandLabel}]`,
+    urgency ? `[${urgency}]` : '',
+    `Discovery call request — ${name}`,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   try {
     const transporter = await getTransporter()
@@ -137,9 +172,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       to,
       ...(process.env.CONTACT_BCC ? { bcc: process.env.CONTACT_BCC } : {}),
       replyTo: { name: headerSafe(name), address: email },
-      subject: headerSafe(
-        `[${brandLabel}] Discovery call request — ${name}${company ? ` (${company})` : ''}`,
-      ),
+      subject: headerSafe(subject),
       text: [
         ...rows.map(([label, value]) => `${label}: ${value}`),
         '',

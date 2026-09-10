@@ -11,6 +11,15 @@ import { usePageMeta } from '../lib/seo'
 const URGENCY_LEVELS = ['Low', 'Medium', 'High', 'Critical'] as const
 type Urgency = (typeof URGENCY_LEVELS)[number]
 
+type Status = 'idle' | 'sending' | 'sent'
+
+/** Shape returned by /api/contact. `fields` maps a field name to its error. */
+interface ContactResponse {
+  ok?: boolean
+  error?: string
+  fields?: Record<string, string>
+}
+
 export default function Contact() {
   usePageMeta(
     'Contact Us | Rothian Cyber — Your Partner in Cybersecurity Excellence',
@@ -25,12 +34,55 @@ export default function Contact() {
   })()
 
   const [urgency, setUrgency] = useState<Urgency>(initialUrgency)
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<Status>('idle')
+  const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
-  const onSubmit = (e: FormEvent) => {
+  const submitted = status === 'sent'
+  const sending = status === 'sending'
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Frontend only — wire to the form backend in production.
-    setSubmitted(true)
+    if (sending) return
+
+    // Read the form before awaiting — currentTarget is null once the handler
+    // yields.
+    const form = Object.fromEntries(new FormData(e.currentTarget))
+
+    setStatus('sending')
+    setError(null)
+    setFieldErrors({})
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          // This form asks for a split name and calls the body "description";
+          // the shared endpoint expects `name` and `message`.
+          name: [form.firstName, form.lastName].filter(Boolean).join(' '),
+          message: form.description,
+          brand: 'cyber',
+        }),
+      })
+      const body = (await res.json().catch(() => ({}))) as ContactResponse
+
+      // Require the explicit ok flag: if /api/contact were ever swallowed by
+      // the SPA rewrite we would get a 200 full of HTML, and showing "sent"
+      // for an enquiry that was never delivered is the worst failure here.
+      if (!res.ok || body.ok !== true) {
+        setFieldErrors(body.fields ?? {})
+        setError(body.error ?? 'Something went wrong. Please try again.')
+        setStatus('idle')
+        return
+      }
+
+      setStatus('sent')
+    } catch {
+      setError(`We could not reach the server. Please try again, or email us at ${CONTACT.email}.`)
+      setStatus('idle')
+    }
   }
 
   const inputClasses =
@@ -132,7 +184,7 @@ export default function Contact() {
             ) : (
               <form
                 onSubmit={onSubmit}
-                className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm sm:p-10"
+                className="relative rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-sm sm:p-10"
               >
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
@@ -153,7 +205,18 @@ export default function Contact() {
                   <label htmlFor="email" className="mb-2 block text-sm font-medium text-white/70">
                     Email *
                   </label>
-                  <input id="email" name="email" type="email" required autoComplete="email" className={inputClasses} />
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    aria-invalid={Boolean(fieldErrors.email)}
+                    className={inputClasses}
+                  />
+                  {fieldErrors.email && (
+                    <p className="mt-2 text-sm text-brand-alert">{fieldErrors.email}</p>
+                  )}
                 </div>
 
                 <div className="mt-5">
@@ -165,15 +228,20 @@ export default function Contact() {
 
                 <div className="mt-5">
                   <label htmlFor="description" className="mb-2 block text-sm font-medium text-white/70">
-                    Description
+                    Description *
                   </label>
                   <textarea
                     id="description"
                     name="description"
+                    required
                     rows={5}
                     className={`${inputClasses} resize-y`}
                     placeholder="Tell us about your environment, your concerns, or the incident you're facing…"
+                    aria-invalid={Boolean(fieldErrors.message)}
                   />
+                  {fieldErrors.message && (
+                    <p className="mt-2 text-sm text-brand-alert">{fieldErrors.message}</p>
+                  )}
                 </div>
 
                 <fieldset className="mt-6">
@@ -225,11 +293,28 @@ export default function Contact() {
                   I consent to Rothian Cyber storing my details to respond to this enquiry. *
                 </label>
 
+                {/* Honeypot — off-screen and untabbable. A bot that fills
+                    this in gets a cheerful 200 and nothing is sent. */}
+                <div aria-hidden className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+                  <label htmlFor="website">Leave this field empty</label>
+                  <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                </div>
+
+                {error && (
+                  <p
+                    role="alert"
+                    className="mt-6 rounded-2xl border border-brand-alert/40 bg-brand-alert/10 px-5 py-3.5 text-sm text-white"
+                  >
+                    {error}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="mt-8 w-full rounded-full bg-brand-gradient px-8 py-4 font-display font-medium text-white shadow-[0_8px_30px_-8px_rgba(139,92,246,0.6)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-6px_rgba(45,212,238,0.55)] active:scale-[0.98]"
+                  disabled={sending}
+                  className="mt-8 w-full rounded-full bg-brand-gradient px-8 py-4 font-display font-medium text-white shadow-[0_8px_30px_-8px_rgba(139,92,246,0.6)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_-6px_rgba(45,212,238,0.55)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
                 >
-                  Send Message
+                  {sending ? 'Sending…' : 'Send Message'}
                 </button>
               </form>
             )}
