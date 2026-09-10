@@ -2,21 +2,27 @@ import nodemailer, { type Transporter } from 'nodemailer'
 import type SMTPTransport from 'nodemailer/lib/smtp-transport'
 
 /**
- * Microsoft 365 SMTP transport.
+ * SMTP transport. Host, port and credentials all come from the environment, so
+ * the provider is a matter of configuration rather than code.
  *
  * Two auth paths, picked from the environment:
  *
- * - **OAuth2 client credentials** (preferred). Microsoft has retired Basic
- *   authentication for Client Submission in Exchange Online, so a modern M365
- *   tenant needs an Entra app with the `SMTP.SendAsApp` application permission.
- *   Set SMTP_TENANT_ID / SMTP_CLIENT_ID / SMTP_CLIENT_SECRET.
- * - **Basic auth**, for tenants that still have SMTP AUTH enabled with an app
- *   password. Set SMTP_USER / SMTP_PASS.
+ * - **Username and password**. This covers Resend (username is the literal
+ *   `resend`, password is an API key) and any other ordinary SMTP provider.
+ *   Set SMTP_USER / SMTP_PASS.
+ * - **OAuth2 client credentials**, for Microsoft 365. Microsoft has retired
+ *   Basic authentication for Client Submission in Exchange Online, so a modern
+ *   M365 tenant needs an Entra app with the `SMTP.SendAsApp` application
+ *   permission. Set SMTP_TENANT_ID / SMTP_CLIENT_ID / SMTP_CLIENT_SECRET.
  *
- * Either way the `From:` address must be a mailbox on rothian.com that the
- * authenticated principal is allowed to send as — the domain publishes
- * `DMARC p=quarantine`, so an unaligned `From:` gets quarantined rather than
- * bounced, which is the worst kind of failure to debug.
+ * Note the precedence: OAuth2 wins whenever all three Entra values are present,
+ * and SMTP_USER / SMTP_PASS are then ignored. Leave them unset for any other
+ * provider.
+ *
+ * Whichever is used, the `From:` domain must be verified with that provider and
+ * must align for DMARC — rothian.com publishes `p=quarantine`, so an unaligned
+ * `From:` gets quarantined rather than bounced, which is the worst kind of
+ * failure to debug.
  */
 
 const TOKEN_SCOPE = 'https://outlook.office365.com/.default'
