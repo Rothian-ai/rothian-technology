@@ -6,9 +6,14 @@
     "types": ["node"],
     "skipLibCheck": true,
 
-    /* Bundled by Vercel's Node runtime — extensionless relative imports resolve. */
+    /* The root package.json declares "type": "module", so these run as ESM,
+       where extensionless relative imports do NOT resolve — that produced a
+       FUNCTION_INVOCATION_FAILED at module load in production. Relative
+       imports here carry an explicit .ts extension, which both Node's own TS
+       resolution and esbuild-based bundling accept. */
     "module": "esnext",
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "esModuleInterop": true,

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { escapeHtml, getTransporter, headerSafe } from './_lib/mailer'
+import { escapeHtml, getTransporter, headerSafe } from './_lib/mailer.ts'
 
 /**
  * Enquiries from every /contact form on rothian.com — the main Technology
