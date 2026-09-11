@@ -24,14 +24,17 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
+    // Each capability goes straight to the group site that owns it, rather than
+    // to this site's overview of it. Cloud has no sibling brand, so it keeps
+    // its capability page. The parent still leads to the overview of all five.
     label: 'Capabilities',
     to: '/capabilities',
     children: [
-      { label: 'Application', to: '/capabilities/application' },
+      { label: 'Application', to: '/ui4ai' },
       { label: 'Cloud', to: '/capabilities/cloud' },
-      { label: 'Cyber', to: '/capabilities/cyber' },
-      { label: 'Data', to: '/capabilities/data' },
-      { label: 'Digital', to: '/capabilities/digital' },
+      { label: 'Cyber', to: '/cyber' },
+      { label: 'Data', to: '/data' },
+      { label: 'Digital', to: '/digital' },
     ],
   },
   { label: 'Solutions', to: '/solutions' },
