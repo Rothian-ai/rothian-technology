@@ -242,20 +242,9 @@ export default function Contact() {
                       Request your call
                     </h2>
                     <p className="-mt-1 text-sm text-white/50">
-                      Pick a slot and we will send the invite. Prefer email? This form works just as
-                      well.
+                      Tell us when suits and we will send the invite — usually within the same
+                      working day.
                     </p>
-
-                    {/* Scheduler slot — swap for the live embed in production */}
-                    <div className="rounded-2xl border border-dashed border-white/20 bg-ink-950/50 p-5 text-center">
-                      <CalendarDays className="mx-auto size-6 text-white/30" aria-hidden />
-                      <p className="mt-3 text-sm font-medium text-white/60">
-                        Calendar booking embed
-                      </p>
-                      <p className="mt-1 text-xs text-white/35">
-                        Placeholder — connect Cal.com or Calendly here at build time.
-                      </p>
-                    </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">
                       <div>
