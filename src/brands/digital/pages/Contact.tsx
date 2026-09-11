@@ -17,6 +17,7 @@ import { EASE } from '../lib/motion'
 import { CONTACT } from '../lib/nav'
 import { usePageMeta } from '../lib/seo'
 import { BriefBuilder } from '../components/BriefBuilder'
+import { CalBooking } from '../components/CalBooking'
 import { PageHero } from '../components/PageHero'
 import { breadcrumbs, ORGANIZATION, useJsonLd } from '../lib/schema'
 
@@ -242,9 +243,11 @@ export default function Contact() {
                       Request your call
                     </h2>
                     <p className="-mt-1 text-sm text-white/50">
-                      Tell us when suits and we will send the invite — usually within the same
-                      working day.
+                      Pick a slot below and it is booked, or tell us when suits using the form and
+                      we will send the invite.
                     </p>
+
+                    <CalBooking />
 
                     <div className="grid gap-5 sm:grid-cols-2">
                       <div>
