@@ -19,11 +19,11 @@ export default function Home() {
     <>
       <Hero />
       <ClientsMarquee />
+      <NetworkSection />
       <LifecycleShowcase />
       <CapabilitiesGrid />
       <WhoWeAre />
       <SolutionsStrip />
-      <NetworkSection />
       <FaqSection />
       <CtaBand />
     </>

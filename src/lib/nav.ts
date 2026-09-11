@@ -37,7 +37,7 @@ export const NAV_ITEMS: NavItem[] = [
       { label: 'Digital', to: '/digital' },
     ],
   },
-  { label: 'Solutions', to: '/solutions' },
+  { label: 'Agents', to: '/solutions' },
   { label: 'Social Values', to: '/social-values' },
   { label: 'Careers', to: '/careers' },
 ]

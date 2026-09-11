@@ -34,13 +34,13 @@ export function NetworkSection() {
                 {...linkProps}
                 className="group flex h-full flex-col rounded-3xl border border-ink-900/10 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-brand-navy/10"
               >
-                <div className="flex h-10 items-center">
+                <div className="flex h-14 items-center">
                   <img
                     src={company.logo}
                     alt={company.name}
                     loading="lazy"
-                    className="max-h-8 w-auto max-w-[9.5rem] object-contain"
-                    height={32}
+                    className="max-h-12 w-auto max-w-[13rem] object-contain"
+                    height={48}
                   />
                 </div>
                 <p className="mt-5 flex-1 text-sm leading-relaxed text-ink-900/60">{company.blurb}</p>
