@@ -203,8 +203,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         await transporter.sendMail({
           from: { name: headerSafe(fromName), address: from },
           to: { name: headerSafe(name), address: email },
-          subject: `We have got your request — ${brandLabel}`,
-          text: `Hi ${name},\n\nThanks for getting in touch. We will confirm a time that suits you — usually within the same working day.\n\nWhat you sent us:\n${message}\n\n— ${brandLabel}`,
+          // Replies go to the team, not to the unattended sending mailbox.
+          replyTo: to,
+          subject: headerSafe(`We have got your request — ${brandLabel}`),
+          text: [
+            `Hi ${name},`,
+            '',
+            'Thanks for getting in touch. We will confirm a time that suits you — usually within the same working day.',
+            '',
+            'What you sent us:',
+            message,
+            '',
+            `If you need to add anything, just reply to this email.`,
+            '',
+            `— ${brandLabel}`,
+          ].join('\n'),
+          // Sent alongside the text part, not instead of it: this is the first
+          // thing a prospect receives from Rothian, and it should not look
+          // less considered than the notification the team gets.
+          html: `
+            <div style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#111;line-height:1.6;max-width:560px">
+              <p style="margin:0 0 16px">Hi ${escapeHtml(name)},</p>
+              <p style="margin:0 0 16px">
+                Thanks for getting in touch. We will confirm a time that suits you — usually
+                within the same working day.
+              </p>
+              <p style="margin:0 0 6px;color:#666;font-size:14px">What you sent us</p>
+              <div style="white-space:pre-wrap;border-left:3px solid #e03140;padding-left:14px;margin-bottom:20px">${escapeHtml(message)}</div>
+              <p style="margin:0 0 16px;font-size:14px;color:#666">
+                If you need to add anything, just reply to this email.
+              </p>
+              <p style="margin:0;font-weight:600">— ${escapeHtml(brandLabel)}</p>
+            </div>
+          `,
         })
       } catch (err) {
         console.error('Auto-reply failed (enquiry was delivered):', err)
