@@ -4,6 +4,7 @@ import { Route, Routes, useParams } from 'react-router-dom'
 import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
 import { ScrollManager } from './components/layout/ScrollManager'
+import { useAnalytics } from './lib/analytics'
 import { useLenis } from './hooks/useLenis'
 import { SERVICE_MAP } from './data/services'
 import Home from './pages/Home'
@@ -79,6 +80,8 @@ function MainSite() {
  */
 export default function App() {
   useLenis()
+  // One page_view per route: this is an SPA, so gtag only fires once on its own.
+  useAnalytics()
 
   return (
     <MotionConfig reducedMotion="user">
